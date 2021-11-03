@@ -8,6 +8,7 @@ from FlaskProject.users.utils import save_ad_picture, delete_ad_picture, send_co
 from FlaskProject.main.routes import home
 from FlaskProject.main.forms import HomeFilter
 from sqlalchemy import text
+from datetime import datetime
 
 adverts=Blueprint('adverts', __name__)
 
@@ -72,7 +73,8 @@ def new_advert():
         if form.manufacturer.data == None or form.product.data == None:
             flash("You Must Select a Manufacturer and Product Filter", "danger")
         latest_advert=Post.query.filter_by(user_id=current_user.id).order_by(Post.date_posted.desc()).first()
-        if form.validate_on_submit() and latest_advert.date_posted.seconds != form.date_posted.seconds:
+        current_time=datetime.now()
+        if form.validate_on_submit() and latest_advert.date_posted.minute != current_time.minute:
             advert=Post(title=form.title.data, content=form.content.data, price=form.price.data, product=form.product.data, manufacturer=form.manufacturer.data, bid=form.bid.data, author=current_user)
             if form.picture.data:
                 picture_file=save_ad_picture(form.picture.data)
