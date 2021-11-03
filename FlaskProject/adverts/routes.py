@@ -37,7 +37,7 @@ def advert(advert_id):
 @login_required
 def update_advert(advert_id):
     advert=Post.query.get_or_404(advert_id)
-    if advert.author != current_user:
+    if advert.author != current_user and current_user.email != "elliot@valeviews.com":
         abort(403)
     form=AdvertForm()
     if form.validate_on_submit():
@@ -87,7 +87,7 @@ def new_advert():
 def delete_advert(advert_id):
     advert=Post.query.get_or_404(advert_id)
     expired=advert.expired
-    if advert.author != current_user and not advert.expired:
+    if advert.author != current_user and not advert.expired and current_user.email != "elliot@valeviews.com":
         abort(403)
     delete_ad_picture(advert)
     bids=Bid.query.filter_by(post_id = advert.id)
