@@ -1,0 +1,30 @@
+{%extends "layout.html"%}
+{%block content%}
+<h1 class="mb-3"> All Adverts With Bids By {{user.username}} ({{adverts.total}})</h1>
+    {% for item in adverts.items %}
+        <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{url_for('static', filename='profile_pics/' + item.author.image_file)}}">
+            <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="{{url_for('users.user_adverts', username=user.username)}}">{{ item.author.username }}</a>
+                <small class="text-muted">{{ item.date_posted.strftime('%d-%m-%Y') }}</small>
+            </div>
+            <h2><a class="article-title" href="{{url_for('adverts.advert', advert_id=item.id)}}">{{ item.title }}</a></h2>
+            <img src="{{url_for('static', filename='advert_pics/' + item.advert_image)}}" class="rounded float-right image-fluid" alt="">
+            <h3 class="text-muted">Reserve Price: £{{ item.price}}</h3>
+            <h class="text-bold">Click to View Bid!</h4>
+            </div>
+        </article>
+    {% endfor %}
+    {%for page_num in adverts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2)%}
+        {%if page_num%}
+            {%if adverts.page==page_num%}
+                <a class="btn btn-info mb-4" href="{{url_for('users.user_adverts', username=user.username, page=page_num)}}">{{page_num}}</a>
+            {%else%}
+                <a class="btn btn-outline-info mb-4" href="{{url_for('users.user_adverts', username=user.username, page=page_num)}}">{{page_num}}</a>
+            {%endif%}
+        {%else%}
+            ...
+        {%endif%}
+    {%endfor%}
+{%endblock content%}
