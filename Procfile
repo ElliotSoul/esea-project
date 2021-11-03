@@ -1,1 +1,1 @@
-"web:gunicorn esea-project:app" 
+web: gunicorn run.wsgi
