@@ -21,6 +21,7 @@ def create_app(config_class=Config):
     bcrypt.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
+    migrate = Migrate(app,db)
 
     from FlaskProject.users.routes import users
     from FlaskProject.adverts.routes import adverts
@@ -32,5 +33,3 @@ def create_app(config_class=Config):
     app.register_blueprint(errors)
 
     return app
-
-migrate = Migrate(app,db)
