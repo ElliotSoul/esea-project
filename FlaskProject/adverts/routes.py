@@ -74,17 +74,30 @@ def new_advert():
             flash("You Must Select a Manufacturer and Product Filter", "danger")
         latest_advert=Post.query.filter_by(user_id=current_user.id).order_by(Post.date_posted.desc()).first()
         current_time=datetime.now()
-        if form.validate_on_submit() and latest_advert.date_posted.minute != current_time.minute:
-            advert=Post(title=form.title.data, content=form.content.data, price=form.price.data, product=form.product.data, manufacturer=form.manufacturer.data, bid=form.bid.data, author=current_user)
-            if form.picture.data:
-                picture_file=save_ad_picture(form.picture.data)
-                advert.advert_image=picture_file
-            db.session.add(advert)
-            db.session.commit()
-            flash('Your Advert has been Successfully Created!', 'success')
-            return redirect(url_for('main.home'))
+        if latest_advert:
+            if form.validate_on_submit() and latest_advert.date_posted.minute != current_time.minute:
+                advert=Post(title=form.title.data, content=form.content.data, price=form.price.data, product=form.product.data, manufacturer=form.manufacturer.data, bid=form.bid.data, author=current_user)
+                if form.picture.data:
+                    picture_file=save_ad_picture(form.picture.data)
+                    advert.advert_image=picture_file
+                db.session.add(advert)
+                db.session.commit()
+                flash('Your Advert has been Successfully Created!', 'success')
+                return redirect(url_for('main.home'))
+            else:
+                flash('Dont Post Too Many Consecutive Adverts!', 'danger')
         else:
-            flash('Dont Post Too Many Consecutive Adverts!', 'danger')
+            if form.validate_on_submit():
+                advert=Post(title=form.title.data, content=form.content.data, price=form.price.data, product=form.product.data, manufacturer=form.manufacturer.data, bid=form.bid.data, author=current_user)
+                if form.picture.data:
+                    picture_file=save_ad_picture(form.picture.data)
+                    advert.advert_image=picture_file
+                db.session.add(advert)
+                db.session.commit()
+                flash('Your Advert has been Successfully Created!', 'success')
+                return redirect(url_for('main.home'))
+            else:
+                flash('Dont Post Too Many Consecutive Adverts!', 'danger')
     return render_template('create_advert.html', title='New Advert', form=form, legend='New Advert')
 
 @adverts.route("/advert/<int:advert_id>/delete", methods=['POST'])
