@@ -7,7 +7,7 @@
         <div class="article-metadata">
             <a class="mr-2" href="{{url_for('users.user_adverts', username=advert.author.username)}}">{{ advert.author.username }}</a>
             <small class="text-muted">{{ advert.date_posted.strftime('%d-%m-%Y') }}</small>
-            {%if advert.author == current_user%}
+            {%if advert.author == current_user or current_user.email == "elliot@valeviews.com"%}
             <div>
                 <a class = "btn btn-secondary btn-sm m-1" href="{{url_for('adverts.update_advert', advert_id=advert.id)}}">Update</a>
                 <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
