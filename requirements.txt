@@ -31,3 +31,4 @@ sudo==1.0.0
 tomli==1.2.1
 Werkzeug==2.0.1
 WTForms==2.3.3
+psycopg2==2.9.2
