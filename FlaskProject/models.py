@@ -38,7 +38,7 @@ class Post(db.Model):
     title=db.Column(db.String(20), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content=db.Column(db.Text, nullable=False)
-    price=db.Column(db.Numeric(5,2), nullable=False)
+    price=db.Column(db.Numeric(7,2), nullable=False)
     advert_image=db.Column(db.String(20), nullable=False, default='defaultad.jpg')
     manufacturer=db.Column(db.String(10), nullable=False)
     product=db.Column(db.String(20), nullable=False)
