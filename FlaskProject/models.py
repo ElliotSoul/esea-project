@@ -44,7 +44,7 @@ class Post(db.Model):
     product=db.Column(db.String(20), nullable=False)
     user_id=db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     bid=db.Column(db.Boolean, nullable=False)
-    expired=db.Column(db.Boolean, nullable=False)
+    expired=db.Column(db.Boolean, nullable=False, default=False)
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
