@@ -4,7 +4,7 @@ from flask_wtf.file import FileField, FileAllowed
 from wtforms.validators import DataRequired, NumberRange, ValidationError, Length
 
 class AdvertForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired(), Length(max=35)])
+    title = StringField('Title', validators=[DataRequired(), Length(max=20)])
     content = TextAreaField('Content', validators=[DataRequired(), Length(max=200, message="Max of 200 Characters")])
     price = DecimalField('Price', validators=[DataRequired(), NumberRange(min=0.01, max=99999.99, message="That number is Invalid")])
     picture =FileField('Advert Photo', validators=[FileAllowed(['jpg', 'png'])])
