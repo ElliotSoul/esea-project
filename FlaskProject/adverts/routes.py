@@ -96,8 +96,6 @@ def new_advert():
                 db.session.commit()
                 flash('Your Advert has been Successfully Created!', 'success')
                 return redirect(url_for('main.home'))
-            else:
-                flash('Dont Post Too Many Consecutive Adverts!', 'danger')
     return render_template('create_advert.html', title='New Advert', form=form, legend='New Advert')
 
 @adverts.route("/advert/<int:advert_id>/delete", methods=['POST'])
