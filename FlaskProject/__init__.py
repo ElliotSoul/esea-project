@@ -11,7 +11,6 @@ bcrypt=Bcrypt()
 login_manager=LoginManager()
 login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
-s3 = FlaskS3()
 
 mail = Mail()
 
@@ -24,8 +23,9 @@ def create_app(config_class=Config):
     mail.init_app(app)
     #with app.app_context():
     #    db.create_all()
-    s3.init_app(app)
     app.config['FLASKS3_BUCKET_NAME'] = 'eseaproject'
+    s3 = FlaskS3(app)
+    s3.init_app(app)
 
     from FlaskProject.users.routes import users
     from FlaskProject.adverts.routes import adverts
