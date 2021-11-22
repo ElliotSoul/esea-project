@@ -2,7 +2,7 @@ import os
 import secrets
 from PIL import Image
 from datetime import datetime
-from flask import url_for, current_app
+from flask import url_for, current_app, request
 from flask_mail import Message
 from FlaskProject import mail, db, s3
 from flask_login import current_user
@@ -15,13 +15,14 @@ def save_picture(form_picture):
     random_filename = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_filename=random_filename+f_ext
-    picture_path = os.path.join(current_app.root_path, '/static/profile_pics', picture_filename)
+    #picture_path = os.path.join(current_app.root_path, 'static/profile_pics', picture_filename)
     final_size=(125, 125)
     with Image.open(form_picture) as img:
         img.thumbnail(final_size)
-        img.save(picture_path)
+        #img.save(picture_path)
+        file = request.files["form_picture"]
         s3=boto3.resource('s3')
-        s3.meta.client.upload_file(picture_path, Config.S3_BUCKET, 'static/profile_pics/'+picture_filename)
+        s3.meta.client.upload_file(file, Config.S3_BUCKET, 'static/profile_pics/'+picture_filename)
         #prev_picture = os.path.join(current_app.root_path, 'static/profile_pics', current_user.image_file)
         #if os.path.exists(prev_picture) and os.path.basename(prev_picture) != 'default.jpg':
         #    os.remove(prev_picture)
