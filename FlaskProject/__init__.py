@@ -4,7 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from FlaskProject.config import Config
-from flask_s3 import FlaskS3
+import boto3
 
 db=SQLAlchemy()
 bcrypt=Bcrypt()
@@ -24,8 +24,9 @@ def create_app(config_class=Config):
     #with app.app_context():
     #    db.create_all()
     app.config['FLASKS3_BUCKET_NAME'] = 'eseaproject'
-    s3 = FlaskS3(app)
-    s3.init_app(app)
+    s3 = boto3.client('s3',
+                     aws_access_key_id=S3_KEY,
+                     aws_secret_access_key=S3_SECRET)
 
     from FlaskProject.users.routes import users
     from FlaskProject.adverts.routes import adverts
