@@ -16,7 +16,9 @@ def save_picture(form_picture):
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_filename=random_filename+f_ext
     picture_path = 'static/profile_pics/'+ picture_filename
-    img = form_picture.resize((125, 125), Image.ANTIALIAS)
+    final_size=(125, 125)
+    with Image.open(form_picture) as img:
+        img.thumbnail(final_size)
     s3_resource=boto3.resource('s3')
     my_bucket=s3_resource.Bucket(Config.S3_BUCKET)
     my_bucket.Object(picture_filename).put(Body=img, Key=picture_path)
@@ -29,13 +31,12 @@ def save_ad_picture(form_picture):
     random_filename = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_filename=random_filename+f_ext
-    picture_path = 'static/advert_pics/'+ picture_filename
+    picture_path = os.path.join(current_app.root_path, 'https://eseaproject.s3.amazonaws.com/static/advert_pics', picture_filename)
     final_size=(250, 250)
-    form_picture.thumbnail(final_size)
-    rgb_img = form_picture.convert('RGB')
-    s3_resource=boto3.resource('s3')
-    my_bucket=s3_resource.Bucket(Config.S3_BUCKET)
-    my_bucket.Object(picture_filename).put(Body=form_picture, Key=picture_path)
+    with Image.open(form_picture) as img:
+        img.thumbnail(final_size)
+        rgb_img = img.convert('RGB')
+        rgb_img.save(picture_path)
 
     return picture_filename
 
