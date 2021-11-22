@@ -18,7 +18,7 @@ def save_picture(form_picture):
     picture_path = 'static/profile_pics'+ picture_filename
     final_size=(125, 125)
     s3_resource=boto3.resource('s3')
-    my_bucket=s3_resource.Bucket(S3_BUCKET)
+    my_bucket=s3_resource.Bucket(Config.S3_BUCKET)
     my_bucket.Object(picture_filename).put(Body=form_picture, Key=picture_path)
     prev_picture = os.path.join(current_app.root_path, 'static/profile_pics', current_user.image_file)
     if os.path.exists(prev_picture) and os.path.basename(prev_picture) != 'default.jpg':
