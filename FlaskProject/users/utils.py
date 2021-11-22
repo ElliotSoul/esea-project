@@ -2,7 +2,7 @@ import os
 import secrets
 from PIL import Image
 from datetime import datetime
-from flask import url_for, current_app
+from flask import url_for, current_app, request
 from flask_mail import Message
 from FlaskProject import mail, db, s3
 from flask_login import current_user
