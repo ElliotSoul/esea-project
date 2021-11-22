@@ -7,6 +7,7 @@ from flask_mail import Message
 from FlaskProject import mail, db, s3
 from flask_login import current_user
 from FlaskProject.models import Bid, User, Post
+from FlaskProject.config import Config
 from wtforms.validators import ValidationError
 import boto3
 
