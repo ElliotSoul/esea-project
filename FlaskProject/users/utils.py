@@ -15,7 +15,7 @@ def save_picture(form_picture):
     random_filename = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_filename=random_filename+f_ext
-    picture_path = 'static/profile_pics'+ picture_filename
+    picture_path = 'static/profile_pics/'+ picture_filename
     final_size=(125, 125)
     s3_resource=boto3.resource('s3')
     my_bucket=s3_resource.Bucket(Config.S3_BUCKET)
