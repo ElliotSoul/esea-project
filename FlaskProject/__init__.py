@@ -13,6 +13,7 @@ login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
 mail = Mail()
+s3 = boto3.client('s3', aws_access_key_id=Config.S3_KEY, aws_secret_access_key=Config.S3_SECRET)
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -24,10 +25,6 @@ def create_app(config_class=Config):
     #with app.app_context():
     #    db.create_all()
     app.config['FLASKS3_BUCKET_NAME'] = 'eseaproject'
-    s3 = boto3.client('s3',
-                     aws_access_key_id=Config.S3_KEY,
-                     aws_secret_access_key=Config.S3_SECRET)
-
     from FlaskProject.users.routes import users
     from FlaskProject.adverts.routes import adverts
     from FlaskProject.main.routes import main
