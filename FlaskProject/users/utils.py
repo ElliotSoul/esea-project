@@ -19,6 +19,7 @@ def save_picture(form_picture):
     final_size=(125, 125)
     with Image.open(form_picture) as img:
         img.thumbnail(final_size)
+        img.save()
     s3_resource=boto3.resource('s3')
     my_bucket=s3_resource.Bucket(Config.S3_BUCKET)
     my_bucket.Object(picture_filename).put(Body=form_picture, Key=picture_path)
