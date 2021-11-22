@@ -16,12 +16,9 @@ def save_picture(form_picture):
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_filename=random_filename+f_ext
     final_size=(125, 125)
-    picture_path = os.path.join(current_app.root_path, 'static/profile_pics', picture_filename)
     with Image.open(form_picture) as img:
         img.thumbnail(final_size)
-        img.save(picture_path)
-        s3 = boto3.resource('s3')
-        s3.client.upload_file(picture_path, Config.S3_BUCKET, filename)
+        s3.upload_fileobj(form_picture, Config.S3_BUCKET, 'static/profile_pics/'+picture_filename)
         #prev_picture = os.path.join(current_app.root_path, 'static/profile_pics', current_user.image_file)
         #if os.path.exists(prev_picture) and os.path.basename(prev_picture) != 'default.jpg':
         #    os.remove(prev_picture)
