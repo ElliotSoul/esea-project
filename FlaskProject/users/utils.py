@@ -20,7 +20,7 @@ def save_picture(form_picture):
     with Image.open(form_picture) as img:
         img.thumbnail(final_size)
         img.save(picture_path)
-        s3.meta.client.upload_file(picture_path, Config.S3_BUCKET, filename)
+        s3.client.upload_file(picture_path, Config.S3_BUCKET, filename)
         #prev_picture = os.path.join(current_app.root_path, 'static/profile_pics', current_user.image_file)
         #if os.path.exists(prev_picture) and os.path.basename(prev_picture) != 'default.jpg':
         #    os.remove(prev_picture)
