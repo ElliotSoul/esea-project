@@ -20,9 +20,8 @@ def save_picture(form_picture):
     with Image.open(form_picture) as img:
         img.thumbnail(final_size)
         #img.save(picture_path)
-        file = request.files["form_picture"]
         s3=boto3.resource('s3')
-        s3.meta.client.upload_file(file, Config.S3_BUCKET, 'static/profile_pics/'+picture_filename)
+        s3.meta.client.upload_file(form_picture, Config.S3_BUCKET, 'static/profile_pics/'+picture_filename)
         #prev_picture = os.path.join(current_app.root_path, 'static/profile_pics', current_user.image_file)
         #if os.path.exists(prev_picture) and os.path.basename(prev_picture) != 'default.jpg':
         #    os.remove(prev_picture)
