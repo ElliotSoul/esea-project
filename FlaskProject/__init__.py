@@ -13,7 +13,7 @@ login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
 mail = Mail()
-s3 = boto3.client('s3', aws_access_key_id=Config.S3_KEY, aws_secret_access_key=Config.S3_SECRET)
+s3 = boto3.resource('s3', aws_access_key_id=Config.S3_KEY, aws_secret_access_key=Config.S3_SECRET)
 
 def create_app(config_class=Config):
     app = Flask(__name__)
