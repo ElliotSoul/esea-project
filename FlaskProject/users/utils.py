@@ -9,7 +9,7 @@ from flask_login import current_user
 from FlaskProject.models import Bid, User, Post
 from FlaskProject.config import Config
 from wtforms.validators import ValidationError
-import boto3
+import boto3, io
 
 def save_picture(form_picture):
     random_filename = secrets.token_hex(8)
@@ -19,11 +19,12 @@ def save_picture(form_picture):
     final_size=(125, 125)
     with Image.open(form_picture) as img:
         img.thumbnail(final_size)
-        img_path = os.path.join(current_app.root_path, 'static/profile_pics', picture_filename)
-        img.save(img_path)
+        img_byte_array = io.BytesIO()
+        img.save(img_byte_array, format='JPEG', subsampling=0, quality=100)
+        img_byte_array = img_byte_array.getvalue()
         s3_resource=boto3.resource('s3')
         my_bucket=s3_resource.Bucket(Config.S3_BUCKET)
-        my_bucket.Object(picture_filename).put(Body=img, Key=picture_path)
+        my_bucket.Object(picture_filename).put(Body=img_byte_array, Key=picture_path)
     prev_picture = os.path.join(current_app.root_path, 'static/profile_pics', current_user.image_file)
     if os.path.exists(prev_picture) and os.path.basename(prev_picture) != 'default.jpg':
         os.remove(prev_picture) 
