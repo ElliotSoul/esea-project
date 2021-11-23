@@ -38,8 +38,13 @@ def save_ad_picture(form_picture):
     final_size=(250, 250)
     with Image.open(form_picture) as img:
         img.thumbnail(final_size)
-        rgb_img = img.convert('RGB')
-        rgb_img.save(picture_path)
+        img = img.convert('RGB')
+        img_byte_array = io.BytesIO()
+        img.save(img_byte_array, format='JPEG', subsampling=0, quality=100)
+        img_byte_array = img_byte_array.getvalue()
+        s3_resource=boto3.resource('s3')
+        my_bucket=s3_resource.Bucket(Config.S3_BUCKET)
+        my_bucket.Object(picture_filename).put(Body=img_byte_array, Key=picture_path)
 
     return picture_filename
 
