@@ -16,6 +16,7 @@ def save_picture(form_picture):
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_filename=random_filename+f_ext
     picture_path = 'static/profile_pics/'+ picture_filename
+    old_picture_path= 'static/profile_pics/'+ current_user.image_File
     final_size=(125, 125)
     with Image.open(form_picture) as img:
         img.thumbnail(final_size)
@@ -26,8 +27,8 @@ def save_picture(form_picture):
         my_bucket=s3_resource.Bucket(Config.S3_BUCKET)
         my_bucket.Object(picture_filename).put(Body=img_byte_array, Key=picture_path)
     prev_picture = os.path.join(current_app.root_path, 'static/profile_pics', current_user.image_file)
-    if os.path.exists(prev_picture) and os.path.basename(prev_picture) != 'default.jpg':
-        os.remove(prev_picture) 
+    if old_picture_path != 'static/profile_pics/default.jpg':
+        my_bucket.Object(old_picture_path).delete()
     return picture_filename
 
 def save_ad_picture(form_picture):
