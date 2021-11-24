@@ -15,8 +15,9 @@ def save_picture(form_picture):
     random_filename = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_filename=random_filename+f_ext
+
     picture_path = 'static/profile_pics/'+ picture_filename
-    old_picture_path= 'static/profile_pics/'+ current_user.image_File
+    old_picture_path= 'static/profile_pics/'+ current_user.image_file
     final_size=(125, 125)
     with Image.open(form_picture) as img:
         img.thumbnail(final_size)
