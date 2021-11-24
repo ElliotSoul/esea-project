@@ -50,7 +50,7 @@ def update_advert(advert_id):
         advert.bid=form.bid.data
         if form.picture.data:
             picture_file=save_ad_picture(form.picture.data)
-            delete_ad_picture(advert)
+            #delete_ad_picture(advert)
             advert.advert_image=picture_file
         db.session.commit()
         flash('Your Advert has been Updated!', 'success')
