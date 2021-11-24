@@ -50,9 +50,10 @@ def save_ad_picture(form_picture):
 
 def delete_ad_picture(advert):
     if advert.advert_image != 'defaultad.jpg':
+        picture_path = 'static/advert_pics/'+ advert.advert_image
         s3_resource=boto3.resource('s3')
         my_bucket=s3_resource.Bucket(Config.S3_BUCKET)
-        my_bucket.Object(advert.advert_image).delete()
+        my_bucket.Object(picture_path).delete()
 
 def processbid(form, advert):
     currentbid=Bid.query.filter_by(post_id=advert.id)\
