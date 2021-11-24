@@ -34,8 +34,7 @@ def save_picture(form_picture):
 def save_ad_picture(form_picture):
     random_filename = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
-    #picture_filename=random_filename+f_ext
-    picture_filename="defaultad.jpg"
+    picture_filename=random_filename+f_ext
     picture_path = 'static/advert_pics/'+ picture_filename
     old_picture_path= 'static/advert_pics/'+ current_user.image_file
     final_size=(250, 250)
