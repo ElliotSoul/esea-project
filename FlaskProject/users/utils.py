@@ -49,9 +49,10 @@ def save_ad_picture(form_picture):
     return picture_filename
 
 def delete_ad_picture(advert):
-    prev_picture = os.path.join(current_app.root_path, 'https://eseaproject.s3.amazonaws.com/static/advert_pics', advert.advert_image)
-    if os.path.exists(prev_picture) and os.path.basename(prev_picture) != 'defaultad.jpg':
-        os.remove(prev_picture)
+    if advert.advert_image != 'defaultad.jpg':
+        s3_resource=boto3.resource('s3')
+        my_bucket=s3_resource.Bucket(Config.S3_BUCKET)
+        my_bucket.Object(advert.advert_image).delete()
 
 def processbid(form, advert):
     currentbid=Bid.query.filter_by(post_id=advert.id)\
