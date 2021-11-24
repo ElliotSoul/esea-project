@@ -15,7 +15,6 @@ def save_picture(form_picture):
     random_filename = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_filename=random_filename+f_ext
-
     picture_path = 'static/profile_pics/'+ picture_filename
     old_picture_path= 'static/profile_pics/'+ current_user.image_file
     final_size=(125, 125)
@@ -37,6 +36,7 @@ def save_ad_picture(form_picture):
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_filename=random_filename+f_ext
     picture_path = 'static/advert_pics/'+ picture_filename
+    old_picture_path= 'static/advert_pics/'+ current_user.image_file
     final_size=(250, 250)
     with Image.open(form_picture) as img:
         img.thumbnail(final_size)
@@ -47,7 +47,6 @@ def save_ad_picture(form_picture):
         s3_resource=boto3.resource('s3')
         my_bucket=s3_resource.Bucket(Config.S3_BUCKET)
         my_bucket.Object(picture_filename).put(Body=img_byte_array, Key=picture_path)
-
     return picture_filename
 
 def delete_ad_picture(advert):
