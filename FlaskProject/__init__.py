@@ -16,8 +16,7 @@ mail = Mail()
 s3 = boto3.client('s3',aws_access_key_id=Config.S3_KEY, aws_secret_access_key=Config.S3_SECRET)
 
 def create_app(config_class=Config):
-    app = Flask(__name__, static_url_path="http://eseaproject.s3.amazonaws.com")
-    app.static_url_path="http://eseaproject.amazonaws.com"
+    app = Flask(__name__, static_url_path="/http://eseaproject.s3.amazonaws.com")
     app.config.from_object(Config)
     db.init_app(app)
     bcrypt.init_app(app)
