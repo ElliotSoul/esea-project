@@ -11,4 +11,8 @@ class Config:
     S3_BUCKET = os.environ.get('S3_BUCKET')
     S3_KEY = os.environ.get('S3_KEY')
     S3_SECRET = os.environ.get('S3_SECRET')
+    ACL = 'public-read'
+    FLASKS3_BUCKET_NAME = S3_BUCKET
+    FLASKS3_REGION = os.environ.get('EU
+    AWS_DOMAIN = http://eseaproject.s3.amazonaws.com/ 
     LOGIN_DISABLED = False
