@@ -16,6 +16,8 @@ adverts=Blueprint('adverts', __name__)
 def advert(advert_id):
     advert=Post.query.get_or_404(advert_id)
     currentbid=Bid.query.filter_by(post_id=advert.id).filter_by(highest_bid=True).first()
+    bucket_url_pfp="https://eseaproject.s3.eu-west-2.amazonaws.com/static/profile_pics/"
+    bucket_url_ad="https://eseaproject.s3.eu-west-2.amazonaws.com/static/advert_pics/"
     if not advert.bid:
         form=EmailForm()
     else:
@@ -31,8 +33,8 @@ def advert(advert_id):
             delete_advert(advert_id)
             current_app.config['LOGIN_DISABLED'] = False
             return render_template('expired.html', title="Expired Advert")
-        return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, user=biduser)
-    return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid)
+        return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, user=biduser, bucket_url_pfp=bucket_url_pfp, bucket_url_ad=bucket_url_ad)
+    return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, bucket_url_pfp=bucket_url_pfp, bucket_url_ad=bucket_url_ad)
 
 @adverts.route("/advert/<int:advert_id>/update", methods=['GET', 'POST'])
 @login_required
