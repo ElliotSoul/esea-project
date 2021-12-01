@@ -67,7 +67,9 @@ def user_adverts(username):
     adverts=Post.query.filter_by(author=user)\
         .order_by(Post.date_posted.desc())\
         .paginate(page=page, per_page=5)
-    return render_template("user_adverts.html", adverts=adverts, user=user)
+    bucket_url_pfp="https://eseaproject.s3.eu-west-2.amazonaws.com/static/profile_pics/"
+    bucket_url_ad="https://eseaproject.s3.eu-west-2.amazonaws.com/static/advert_pics/"
+    return render_template("user_adverts.html", adverts=adverts, user=user, bucket_url_pfp=bucket_url_pfp, bucket_url_ad=bucket_url_ad)
 
 @users.route("/user/<string:username>/bids")
 @login_required
