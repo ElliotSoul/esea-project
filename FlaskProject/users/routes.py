@@ -81,7 +81,9 @@ def user_bids(username):
     bidadverts=Post.query.join(Bid, Post.id == Bid.post_id).filter(Bid.user_bid_id == user.id)
     adverts=bidadverts.order_by(Post.id)\
             .paginate(page=page, per_page=5)
-    return render_template("bid_adverts.html", adverts=adverts, user=user)
+    bucket_url_pfp="https://eseaproject.s3.eu-west-2.amazonaws.com/static/profile_pics/"
+    bucket_url_ad="https://eseaproject.s3.eu-west-2.amazonaws.com/static/advert_pics/"
+    return render_template("bid_adverts.html", adverts=adverts, user=user, bucket_url_pfp=bucket_url_pfp, bucket_url_ad=bucket_url_ad)
 
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():
