@@ -58,7 +58,7 @@ def account():
         form.username.data=current_user.username
         form.email.data=current_user.email
     bucket_url_pfp="https://eseaproject.s3.eu-west-2.amazonaws.com/static/profile_pics/"
-    return render_template('account.html', title='Account', image_file=image_file, form=form, bucket_url_pfp=bucket_url_pfp)
+    return render_template('account.html', title='Account', form=form, bucket_url_pfp=bucket_url_pfp)
 
 @users.route("/user/<string:username>")
 def user_adverts(username):
