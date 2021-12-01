@@ -15,7 +15,7 @@
             {%endif%}
         </div>
         <h2 class="article-title">{{ advert.title }}</h2>
-        <img src={{bucket_url_ad + advert_image}} class="rounded float-right image-fluid" alt="">
+        <img src={{bucket_url_ad + advert.image_file}} class="rounded float-right image-fluid" alt="">
         <p class="article-content">{{ advert.content }}</p>
         <h3 class="text-bold">{%if advert.bid%} Reserve Price: {%endif%}£{{ advert.price}}</h3>
         {%if advert.bid%}<h4 class="text-muted">{%if bid.price%}Current Bid: £{{bid.price}}{%else%}No Current Bid, Be the First!{%endif%}</h4>{%endif%}
