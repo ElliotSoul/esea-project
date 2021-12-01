@@ -11,7 +11,7 @@ def home():
     adverts=Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
     form=HomeFilter()
     test="https://eseaproject.s3.eu-west-2.amazonaws.com/static/profile_pics/default.jpg"
-    return render_template("home.html", adverts=adverts, form=form, homepage=True)
+    return render_template("home.html", adverts=adverts, form=form, homepage=True, test=test)
 
 @main.route("/about")
 def about():
