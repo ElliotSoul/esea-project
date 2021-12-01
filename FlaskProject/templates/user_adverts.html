@@ -3,14 +3,14 @@
 <h1 class="mb-3"> All Adverts by {{user.username}} ({{adverts.total}})</h1>
     {% for item in adverts.items %}
         <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{bucket_url_pfp + advert.author.image_file}}">
+            <img class="rounded-circle article-img" src="{{bucket_url_pfp + item.author.image_file}}">
             <div class="media-body">
             <div class="article-metadata">
                 <a class="mr-2" href="{{url_for('users.user_adverts', username=item.author.username)}}">{{ item.author.username }}</a>
                 <small class="text-muted">{{ item.date_posted.strftime('%d-%m-%Y') }}</small>
             </div>
             <h2><a class="article-title" href="{{url_for('adverts.advert', advert_id=item.id)}}">{{ item.title }}</a></h2>
-            <img src="{{bucket_url_ad + advert.advert_image}}" class="rounded float-right image-fluid" alt="">
+            <img src="{{bucket_url_ad + item.advert_image}}" class="rounded float-right image-fluid" alt="">
             <p class="article-content">{{ item.content }}</p>
             <h3 class="text-muted">£{{ item.price}}</h3>
             </div>
