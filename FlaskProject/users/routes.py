@@ -57,8 +57,8 @@ def account():
     elif request.method == 'GET':
         form.username.data=current_user.username
         form.email.data=current_user.email
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
-    return render_template('account.html', title='Account', image_file=image_file, form=form)
+    bucket_url_pfp="https://eseaproject.s3.eu-west-2.amazonaws.com/static/profile_pics/"
+    return render_template('account.html', title='Account', image_file=image_file, form=form bucket_url_pfp=bucket_url_pfp)
 
 @users.route("/user/<string:username>")
 def user_adverts(username):
