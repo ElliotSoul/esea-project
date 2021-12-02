@@ -4,7 +4,7 @@ from FlaskProject import db, bcrypt
 from FlaskProject.models import User, Post, Bid
 from FlaskProject.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,RequestResetForm, ResetPasswordForm)
 from FlaskProject.users.utils import save_picture, send_reset_email
-from FlaskProject.config import BUCKET_URL_AD, BUCKET_URL_PFP
+from FlaskProject.config import Config
 
 users=Blueprint('users', __name__)
 
@@ -58,7 +58,7 @@ def account():
     elif request.method == 'GET':
         form.username.data=current_user.username
         form.email.data=current_user.email
-    return render_template('account.html', title='Account', form=form, bucket_url_pfp=BUCKET_URL_PFP)
+    return render_template('account.html', title='Account', form=form, bucket_url_pfp=Config.BUCKET_URL_PFP)
 
 @users.route("/user/<string:username>")
 def user_adverts(username):
@@ -67,7 +67,7 @@ def user_adverts(username):
     adverts=Post.query.filter_by(author=user)\
         .order_by(Post.date_posted.desc())\
         .paginate(page=page, per_page=5)
-    return render_template("user_adverts.html", adverts=adverts, user=user, bucket_url_pfp=BUCKET_URL_PFP, bucket_url_ad=BUCKET_URL_AD)
+    return render_template("user_adverts.html", adverts=adverts, user=user, bucket_url_pfp=Config.BUCKET_URL_PFP, bucket_url_ad=Config.BUCKET_URL_AD)
 
 @users.route("/user/<string:username>/bids")
 @login_required
@@ -79,7 +79,7 @@ def user_bids(username):
     bidadverts=Post.query.join(Bid, Post.id == Bid.post_id).filter(Bid.user_bid_id == user.id)
     adverts=bidadverts.order_by(Post.id)\
             .paginate(page=page, per_page=5)
-    return render_template("bid_adverts.html", adverts=adverts, user=user, bucket_url_pfp=BUCKET_URL_PFP, bucket_url_ad=BUCKET_URL_AD)
+    return render_template("bid_adverts.html", adverts=adverts, user=user, bucket_url_pfp=Config.BUCKET_URL_PFP, bucket_url_ad=Config.BUCKET_URL_AD)
 
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():

@@ -7,7 +7,7 @@ from FlaskProject.adverts.forms import AdvertForm, EmailForm, BidForm
 from FlaskProject.users.utils import save_ad_picture, delete_ad_picture, send_contact_email, processbid, check_time, expire_email
 from FlaskProject.main.routes import home
 from FlaskProject.main.forms import HomeFilter
-from FlaskProject.config import BUCKET_URL_AD, BUCKET_URL_PFP
+from FlaskProject.config import Config
 from sqlalchemy import text
 from datetime import datetime
 
@@ -32,8 +32,8 @@ def advert(advert_id):
             delete_advert(advert_id)
             current_app.config['LOGIN_DISABLED'] = False
             return render_template('expired.html', title="Expired Advert")
-        return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, user=biduser, bucket_url_pfp=BUCKET_URL_PFP, bucket_url_ad=BUCKET_URL_AD)
-    return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, bucket_url_pfp=BUCKET_URL_PFP, bucket_url_ad=BUCKET_URL_AD)
+        return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, user=biduser, bucket_url_pfp=Config.BUCKET_URL_PFP, bucket_url_ad=COnifig.BUCKET_URL_AD)
+    return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, bucket_url_pfp=Config.BUCKET_URL_PFP, bucket_url_ad=Config.BUCKET_URL_AD)
 
 @adverts.route("/advert/<int:advert_id>/update", methods=['GET', 'POST'])
 @login_required
@@ -175,4 +175,4 @@ def filters():
         else:
             adverts=Post.query.filter_by(id=Post.id)
         adverts, sortdata=sort(adverts, form)
-    return render_template('filters.html', adverts=adverts, form=form, homepage=True, sortdata=sortdata, bucket_url_pfp=BUCKET_URL_PFP, bucket_url_ad=BUCKET_URL_AD)
+    return render_template('filters.html', adverts=adverts, form=form, homepage=True, sortdata=sortdata, bucket_url_pfp=Config.BUCKET_URL_PFP, bucket_url_ad=Config.BUCKET_URL_AD)
