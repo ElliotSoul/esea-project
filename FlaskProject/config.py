@@ -14,7 +14,6 @@ class Config:
     ACL = 'public-read'
     FLASKS3_BUCKET_NAME = S3_BUCKET
     FLASKS3_REGION = 'eu-west-2'
-    AWS_DOMAIN = 'http://eseaproject.s3.amazonaws.com/'
     LOGIN_DISABLED = False
-    BUCKET_URL_PFP=os.environ.get(BUCKET_URL_PFP)
-    BUCKET_URL_AD=os.environ.get(BUCKET_URL_AD)
+    BUCKET_URL_PFP=os.environ.get('BUCKET_URL_PFP')
+    BUCKET_URL_AD=os.environ.get('BUCKET_URL_AD')
