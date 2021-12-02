@@ -32,7 +32,7 @@ def advert(advert_id):
             delete_advert(advert_id)
             current_app.config['LOGIN_DISABLED'] = False
             return render_template('expired.html', title="Expired Advert")
-        return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, user=biduser, bucket_url_pfp=Config.BUCKET_URL_PFP, bucket_url_ad=COnifig.BUCKET_URL_AD)
+        return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, user=biduser, bucket_url_pfp=Config.BUCKET_URL_PFP, bucket_url_ad=Config.BUCKET_URL_AD)
     return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, bucket_url_pfp=Config.BUCKET_URL_PFP, bucket_url_ad=Config.BUCKET_URL_AD)
 
 @adverts.route("/advert/<int:advert_id>/update", methods=['GET', 'POST'])
