@@ -1,6 +1,7 @@
 from flask import render_template, request, Blueprint
 from FlaskProject.models import Post, Bid
 from FlaskProject.main.forms import HomeFilter
+from FlaskProject.config import BUCKET_URL_AD, BUCKET_URL_PFP
 
 main=Blueprint('main', __name__)
 
@@ -10,9 +11,7 @@ def home():
     page = request.args.get('page', 1, type=int)
     adverts=Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
     form=HomeFilter()
-    bucket_url_pfp="https://eseaproject.s3.eu-west-2.amazonaws.com/static/profile_pics/"
-    bucket_url_ad="https://eseaproject.s3.eu-west-2.amazonaws.com/static/advert_pics/"
-    return render_template("home.html", adverts=adverts, form=form, homepage=True, bucket_url_pfp=bucket_url_pfp, bucket_url_ad=bucket_url_ad)
+    return render_template("home.html", adverts=adverts, form=form, homepage=True, bucket_url_pfp=BUCKET_URL_PFP, bucket_url_ad=BUCKET_URL_AD)
 
 @main.route("/about")
 def about():

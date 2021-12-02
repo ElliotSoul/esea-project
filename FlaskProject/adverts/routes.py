@@ -7,6 +7,7 @@ from FlaskProject.adverts.forms import AdvertForm, EmailForm, BidForm
 from FlaskProject.users.utils import save_ad_picture, delete_ad_picture, send_contact_email, processbid, check_time, expire_email
 from FlaskProject.main.routes import home
 from FlaskProject.main.forms import HomeFilter
+from FlaskProject.config import BUCKET_URL_AD, BUCKET_URL_PFP
 from sqlalchemy import text
 from datetime import datetime
 
@@ -16,8 +17,6 @@ adverts=Blueprint('adverts', __name__)
 def advert(advert_id):
     advert=Post.query.get_or_404(advert_id)
     currentbid=Bid.query.filter_by(post_id=advert.id).filter_by(highest_bid=True).first()
-    bucket_url_pfp="https://eseaproject.s3.eu-west-2.amazonaws.com/static/profile_pics/"
-    bucket_url_ad="https://eseaproject.s3.eu-west-2.amazonaws.com/static/advert_pics/"
     if not advert.bid:
         form=EmailForm()
     else:
@@ -33,8 +32,8 @@ def advert(advert_id):
             delete_advert(advert_id)
             current_app.config['LOGIN_DISABLED'] = False
             return render_template('expired.html', title="Expired Advert")
-        return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, user=biduser, bucket_url_pfp=bucket_url_pfp, bucket_url_ad=bucket_url_ad)
-    return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, bucket_url_pfp=bucket_url_pfp, bucket_url_ad=bucket_url_ad)
+        return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, user=biduser, bucket_url_pfp=BUCKET_URL_PFP, bucket_url_ad=BUCKET_URL_AD)
+    return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, bucket_url_pfp=BUCKET_URL_PFP, bucket_url_ad=BUCKET_URL_AD)
 
 @adverts.route("/advert/<int:advert_id>/update", methods=['GET', 'POST'])
 @login_required
@@ -176,4 +175,4 @@ def filters():
         else:
             adverts=Post.query.filter_by(id=Post.id)
         adverts, sortdata=sort(adverts, form)
-    return render_template('filters.html', adverts=adverts, form=form, homepage=True, sortdata=sortdata)
+    return render_template('filters.html', adverts=adverts, form=form, homepage=True, sortdata=sortdata, bucket_url_pfp=BUCKET_URL_PFP, bucket_url_ad=BUCKET_URL_AD)

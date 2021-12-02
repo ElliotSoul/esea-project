@@ -4,6 +4,7 @@ from FlaskProject import db, bcrypt
 from FlaskProject.models import User, Post, Bid
 from FlaskProject.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,RequestResetForm, ResetPasswordForm)
 from FlaskProject.users.utils import save_picture, send_reset_email
+from FlaskProject.config import BUCKET_URL_AD, BUCKET_URL_PFP
 
 users=Blueprint('users', __name__)
 
@@ -57,8 +58,7 @@ def account():
     elif request.method == 'GET':
         form.username.data=current_user.username
         form.email.data=current_user.email
-    bucket_url_pfp="https://eseaproject.s3.eu-west-2.amazonaws.com/static/profile_pics/"
-    return render_template('account.html', title='Account', form=form, bucket_url_pfp=bucket_url_pfp)
+    return render_template('account.html', title='Account', form=form, bucket_url_pfp=BUCKET_URL_PFP)
 
 @users.route("/user/<string:username>")
 def user_adverts(username):
@@ -67,9 +67,7 @@ def user_adverts(username):
     adverts=Post.query.filter_by(author=user)\
         .order_by(Post.date_posted.desc())\
         .paginate(page=page, per_page=5)
-    bucket_url_pfp="https://eseaproject.s3.eu-west-2.amazonaws.com/static/profile_pics/"
-    bucket_url_ad="https://eseaproject.s3.eu-west-2.amazonaws.com/static/advert_pics/"
-    return render_template("user_adverts.html", adverts=adverts, user=user, bucket_url_pfp=bucket_url_pfp, bucket_url_ad=bucket_url_ad)
+    return render_template("user_adverts.html", adverts=adverts, user=user, bucket_url_pfp=BUCKET_URL_PFP, bucket_url_ad=BUCKET_URL_AD)
 
 @users.route("/user/<string:username>/bids")
 @login_required
@@ -81,9 +79,7 @@ def user_bids(username):
     bidadverts=Post.query.join(Bid, Post.id == Bid.post_id).filter(Bid.user_bid_id == user.id)
     adverts=bidadverts.order_by(Post.id)\
             .paginate(page=page, per_page=5)
-    bucket_url_pfp="https://eseaproject.s3.eu-west-2.amazonaws.com/static/profile_pics/"
-    bucket_url_ad="https://eseaproject.s3.eu-west-2.amazonaws.com/static/advert_pics/"
-    return render_template("bid_adverts.html", adverts=adverts, user=user, bucket_url_pfp=bucket_url_pfp, bucket_url_ad=bucket_url_ad)
+    return render_template("bid_adverts.html", adverts=adverts, user=user, bucket_url_pfp=BUCKET_URL_PFP, bucket_url_ad=BUCKET_URL_AD)
 
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():
