@@ -14,7 +14,7 @@
             </div>
             {%endif%}
         </div>
-        <h2 class="article-title">{{ advert.title }} <span class="badge badge-info float-right">{{item.product}}</span> <span class="badge badge-info float-right">{{item.manufacturer}}</span></h2>
+        <h2 class="article-title">{{ advert.title }} <span class="badge badge-info float-right">{{advert.product}}</span> <span class="badge badge-info float-right">{{advert.manufacturer}}</span></h2>
         <img src={{bucket_url_ad + advert.advert_image}} class="rounded float-right image-fluid" alt="">
         <p class="article-content">{{ advert.content }}</p>
         <h3 class="text-bold">{%if advert.bid%} Reserve Price: {%endif%}£{{ advert.price}}</h3>
