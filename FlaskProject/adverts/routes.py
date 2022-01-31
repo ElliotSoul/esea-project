@@ -85,7 +85,7 @@ def new_advert():
                 db.session.commit()
                 flash('Your Advert has been Successfully Created!', 'success')
                 return redirect(url_for('main.home'))
-            else:
+            elif latest_advert.date_posted.minute == current_time.minute:
                 flash('Dont Post Too Many Consecutive Adverts!', 'danger')
         else:
             if form.validate_on_submit():
