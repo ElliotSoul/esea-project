@@ -32,14 +32,14 @@ def advert(advert_id):
             delete_advert(advert_id)
             current_app.config['LOGIN_DISABLED'] = False
             return render_template('expired.html', title="Expired Advert")
-        return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, user=biduser, bucket_url_pfp=Config.BUCKET_URL_PFP, bucket_url_ad=Config.BUCKET_URL_AD)
-    return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, bucket_url_pfp=Config.BUCKET_URL_PFP, bucket_url_ad=Config.BUCKET_URL_AD)
+        return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, user=biduser, bucket_url_pfp=Config.BUCKET_URL_PFP, bucket_url_ad=Config.BUCKET_URL_AD, ADMIN_EMAIL = Config.ADMIN_EMAIL)
+    return render_template('advert.html', title=advert.title, advert=advert, form=form, bid=currentbid, bucket_url_pfp=Config.BUCKET_URL_PFP, bucket_url_ad=Config.BUCKET_URL_AD, ADMIN_EMAIL = Config.ADMIN_EMAIL)
 
 @adverts.route("/advert/<int:advert_id>/update", methods=['GET', 'POST'])
 @login_required
 def update_advert(advert_id):
     advert=Post.query.get_or_404(advert_id)
-    if advert.author != current_user and current_user.email != "elliot@valeviews.com":
+    if advert.author != current_user and current_user.email != Config.ADMIN_EMAIL:
         abort(403)
     form=AdvertForm()
     if form.validate_on_submit():

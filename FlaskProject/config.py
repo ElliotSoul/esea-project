@@ -17,3 +17,4 @@ class Config:
     LOGIN_DISABLED = False
     BUCKET_URL_PFP=os.environ.get('BUCKET_URL_PFP')
     BUCKET_URL_AD=os.environ.get('BUCKET_URL_AD')
+    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL')
