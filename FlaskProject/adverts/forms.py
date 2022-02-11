@@ -2,6 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, FloatField, DecimalField, RadioField, BooleanField
 from flask_wtf.file import FileField, FileAllowed
 from wtforms.validators import DataRequired, NumberRange, ValidationError, Length
+from collections import Counter
 
 class AdvertForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(max=20)])
@@ -20,16 +21,13 @@ class AdvertForm(FlaskForm):
         for i in range(0, len(str(content))):
             temp=temp+contentstring[:1]
             contentstring=contentstring[1:]
-            print(temp[len(temp)-2:])
-            if temp[len(temp)-2:] == "\n":
-                enterval=enterval+1
-                print(enterval)
             if temp[len(temp)-1:] == " ":
                 temp=""
             if len(temp)>35:
                 raise ValidationError("One of Those Words are Invalid (One Word is too Long, Include a space)")
-            if enterval>3:
-                raise ValidationError("Reduce 'Enter' Characters")
+        enterval=Counter(temp)
+        if enterval['\n']>3:
+            raise ValidationError("Reduce 'Enter' Characters")
 
 class EmailForm(FlaskForm):
     message = TextAreaField('Message', validators=[DataRequired(), Length(max=200, message="Max of 200 Characters")])
