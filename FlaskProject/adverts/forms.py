@@ -20,7 +20,7 @@ class AdvertForm(FlaskForm):
         for i in range(0, len(str(content))):
             temp=temp+contentstring[:1]
             contentstring=contentstring[1:]
-            if temp[len(temp)-1:] == "\n":
+            if temp[len(temp)-2:] == "\n":
                 enterval=enterval+1
             if temp[len(temp)-1:] == " ":
                 temp=""
