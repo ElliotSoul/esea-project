@@ -19,11 +19,11 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(Config)
     bcrypt.init_app(app)
+    db.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
     with app.app_context():
         db.create_all()
-    db.init_app(app)
     app.config['FLASKS3_BUCKET_NAME'] = 'eseaproject'
     from FlaskProject.users.routes import users
     from FlaskProject.adverts.routes import adverts
