@@ -53,7 +53,7 @@ class Bid(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     post_id=db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
     user_bid_id=db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    price=db.Column(db.Numeric(5,2), nullable=False)
+    price=db.Column(db.Numeric(7,2), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     highest_bid = db.Column(db.Boolean, nullable=False, default=False)
 
