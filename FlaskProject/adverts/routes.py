@@ -104,7 +104,7 @@ def new_advert():
 def delete_advert(advert_id):
     advert=Post.query.get_or_404(advert_id)
     expired=advert.expired
-    if advert.author != current_user and not advert.expired and current_user.email != "elliot@valeviews.com":
+    if advert.author != current_user and not advert.expired and current_user.email != Config.ADMIN_EMAIL:
         abort(403)
     delete_ad_picture(advert)
     bids=Bid.query.filter_by(post_id = advert.id)
