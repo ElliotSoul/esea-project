@@ -121,7 +121,7 @@ def interest(advert_id):
     advert=Post.query.get_or_404(advert_id)
     if not advert.bid:
         form = EmailForm()
-        form.validate_on_submit():
+        form.validate_on_submit()
         send_contact_email(form, advert)
         flash('An Email has been sent showing your interest!', 'info')
     else:
